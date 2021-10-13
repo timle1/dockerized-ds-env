@@ -1,0 +1,5 @@
+tensorflow==1.15
+tensorboard
+tensorboard-plugin-wit
+tensorboardX
+tensorflow-estimator

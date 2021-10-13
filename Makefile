@@ -3,18 +3,19 @@ build:
 
 code:
 	docker run \
+	--network=host \
 	-v $(WORKSPACE):/home/jovyan/work \
 	-e JUPYTER_ENABLE_LAB=yes \
 	-ti mldev \
 	/bin/zsh -c \
 	"source activate ml \
-	&& code-server /home/jovyan/work/ --verbose --port $(CPORT) --auth none"
+	&& code-server /home/jovyan/work/ --verbose --port $(CPORT) --host 0.0.0.0 --auth none"
 
 jupyter:
 	docker run \
 		-ti -p $(JPORT):8888 \
 		--mount type=bind,source=$(WORKSPACE),target=/home/jovyan/work \
-		mldev /bin/zsh -c "source activate ml && start.sh jupyter lab"
+		mldev /bin/zsh -c "source activate ml && SHELL=/bin/zsh start.sh jupyter lab"
 
 code2:
 	docker run \

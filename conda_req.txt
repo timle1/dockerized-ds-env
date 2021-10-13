@@ -1,7 +1,2 @@
-seaborn
-scikit-learn
-scikit-image
-dask
-beautifulsoup4
 plotly
 dask-image

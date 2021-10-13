@@ -1,9 +1,7 @@
 docker
 docker-compose
 dockerpty
-tensorflow==2.5.1
-tensorboard
-tensorboard-plugin-wit
-tensorboardX
-tensorflow-estimator
 termcolor
+gym
+stable-baselines
+gym-anytrading

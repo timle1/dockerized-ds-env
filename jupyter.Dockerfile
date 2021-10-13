@@ -7,15 +7,18 @@ USER root
 RUN apt-get update --fix-missing
 RUN apt-get install -y \
     net-tools iputils-ping \
-    build-essential cmake git \
+    build-essential git \
     curl wget \
     gcc vim \
     libjpeg-dev libpng-dev \
     libtiff-dev libgtk2.0-dev \
     locales zsh \
     imagemagick ffmpeg \
-    zip p7zip-full p7zip-rar \
+    zip unzip p7zip-full p7zip-rar \
     libomp5 \
+    libglu1-mesa-dev libgl1-mesa-dev libosmesa6-dev \
+    xvfb patchelf ffmpeg cmake swig \
+    libopenmpi-dev python3-dev zlib1g-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -44,17 +47,9 @@ RUN /bin/zsh -c "conda install --file /tmp/conda_req.txt"
 COPY --chown=${NB_UID}:${NB_GID} cforge_req.txt /tmp/
 RUN conda install -yc conda-forge --file /tmp/cforge_req.txt
 
-# venv ml specifics
-RUN conda create -y -n ml python=3.7
-# RUN /opt/conda/bin/conda install -yc conda-forge --file /tmp/cforge_req.txt -n ml
-# RUN /bin/zsh -c "conda install --file /tmp/conda_req.txt -n ml"
-# RUN /bin/zsh -c 'source activate ml && pip install --quiet --no-cache-dir -r /tmp/requirements.txt && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"'
-
 RUN mkdir -p "/home/${NB_USER}/.local/share/code-server/extensions"
 RUN mkdir -p "/home/${NB_USER}/.local/share/code-server/User"
-COPY settings.json "/home/${NB_USER}/.local/share/code-server/User"
+COPY --chown=${NB_UID}:${NB_GID} settings.json "/home/${NB_USER}/.local/share/code-server/User"
 RUN wget https://github.com/microsoft/vscode-python/releases/latest/download/ms-python-release.vsix
 RUN code-server --install-extension ms-python-release.vsix
 
@@ -67,3 +62,14 @@ RUN mkdir -p "/home/${NB_USER}/work"
 
 # Jupyter and Tensorboard ports
 EXPOSE 8888 6006
+
+# venv ml specifics
+RUN conda create -y -n ml python=3.7
+RUN /bin/zsh -c "source activate ml && pip install --user ipykernel"
+RUN /bin/zsh -c "source activate ml && python -m ipykernel install --user --name=ml"
+# RUN /opt/conda/bin/conda install -yc conda-forge --file /tmp/cforge_req.txt -n ml
+# RUN /bin/zsh -c "conda install --file /tmp/conda_req.txt -n ml"
+COPY --chown=${NB_UID}:${NB_GID} tensorflow_req.txt /tmp/
+RUN /bin/zsh -c 'source activate ml && pip install --no-cache-dir -r /tmp/tensorflow_req.txt && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"'
