@@ -1,0 +1,9 @@
+starlette
+uvicorn
+mlxtend
+xgboost
+lightgbm
+catboost
+shap
+aiohttp
+jupyterlab
