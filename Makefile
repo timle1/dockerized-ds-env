@@ -1,27 +1,11 @@
+compose:
+	docker compose up -d && echo "use 'docker compose down' to turn jupyter lab off"
+
 build:
-	docker build -f jupyter.Dockerfile -t mldev .
+	docker build -f jupyter.dockerfile -t jupyter-lab .
 
-code:
+run:
 	docker run \
-	--network=host \
-	-v $(WORKSPACE):/home/jovyan/work \
-	-e JUPYTER_ENABLE_LAB=yes \
-	-ti mldev \
-	/bin/zsh -c \
-	"source activate ml \
-	&& code-server /home/jovyan/work/ --verbose --port $(CPORT) --host 0.0.0.0 --auth none"
-
-jupyter:
-	docker run \
-		-ti -p $(JPORT):8888 \
-		--mount type=bind,source=$(WORKSPACE),target=/home/jovyan/work \
-		mldev /bin/zsh -c "source activate ml && SHELL=/bin/zsh start.sh jupyter lab"
-
-code2:
-	docker run \
-	--network=host \
-	-v $(WORKSPACE):/home/root/workspace \
-	-t mldev \
-	/bin/zsh -c \
-	"source activate ml \
-	&& TERM=xterm code-server /home/root/workspace/ --log trace --verbose --port $(CPORT) --host 0.0.0.0 --auth none"
+		-ti -p 8888:8888 \
+		-v "${PWD}":/home/jovyan/work \
+		jupyter-lab /bin/zsh -c "SHELL=/bin/zsh start.sh jupyter lab --ip='0.0.0.0' --port=8888 --no-browser --allow-root --notebook-dir=/home/jovyan/work"
