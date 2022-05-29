@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  jupyterlab:
+    container_name: "cont-jupyter-lab"
+    build:
+      context: .
+      dockerfile: ./jupyter.dockerfile
+    ports:
+      - "8899:8888"
+      - "6006:6006"
+    expose:
+      - 8899
+      - 6006
+    user: root
+    restart: always
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    environment:
+      - GRANT_SUDO=yes
+      - NB_USER=tim
+      - NB_UID=1000
+      - NB_GID=1000
+      - CHOWN_HOME=yes
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
+    volumes:
+      - .:/home/tim/
