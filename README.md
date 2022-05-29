@@ -8,6 +8,7 @@ A fully fledged development environment for OSX, Windows, Linux
 run the following command in your project folder
 ```
 git clone https://github.com/timle1/dockerized-ds-env.git .devcontainer
+code .
 ```
 
 ## for jupyterlab only
