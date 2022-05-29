@@ -4,6 +4,21 @@ A fully fledged development environment for OSX, Windows, Linux
 - Inspired by https://github.com/abhishekkrthakur/ml_dev_env
 
 
+## for vscode
+run the following command in your project folder
+```
+git clone https://github.com/timle1/dockerized-ds-env.git .devcontainer
+```
+
+## for jupyterlab only
+use the standalone app __or__
+```
+git clone https://github.com/timle1/dockerized-ds-env.git jupyterlab-work
+cd jupyterlab-work
+make compose
+```
+
+## for standalone container
 ### Step - 1: Build the container
 ```
 make build
@@ -14,25 +29,8 @@ You need docker! Check out https://docs.docker.com/get-docker/ on information on
 
 #### For the coding environment only
 ```
-export WORKSPACE=$(pwd)
-export CPORT=8887
-make code
+make run
 ```
-in vscode, attach to running container
-> ensure the virtual environment is activated on the bottom right corner
-
-#### For Jupyter lab
-```
-export WORKSPACE=$(pwd)
-export JPORT=8888
-make jupyter
-```
-open URL in browser
-
-Where ```PATH_TO_YOUR_CODEBASE``` is the path to your code base where all the scripts/notebooks are located and ```PORT``` is the port you want to run the IDE on
-
-e.g. ```WORKSPACE=/home/abhishek/workspace/bert-sentiment CPORT=10012 make code```
-
 
 ### Optional
 
