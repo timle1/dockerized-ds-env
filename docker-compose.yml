@@ -4,7 +4,7 @@ services:
     container_name: "cont-jupyter-lab"
     build:
       context: .
-      dockerfile: ./jupyter.dockerfile
+      dockerfile: ./jupyter.Dockerfile
     ports:
       - "8899:8888"
       - "6006:6006"
@@ -19,10 +19,10 @@ services:
         max-file: "3"
     environment:
       - GRANT_SUDO=yes
-      - NB_USER=tim
+      - NB_USER=jovyan
       - NB_UID=1000
       - NB_GID=1000
       - CHOWN_HOME=yes
     command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
     volumes:
-      - .:/home/tim/
+      - ./:/home/jovyan/
