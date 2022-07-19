@@ -22,7 +22,7 @@ make compose
 ## for standalone container
 ### Step - 1: Build the container
 ```
-make build
+make setup
 ```
 You need docker! Check out https://docs.docker.com/get-docker/ on information on how to install docker for your system.
 
