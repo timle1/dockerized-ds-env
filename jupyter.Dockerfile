@@ -36,7 +36,7 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
 
 USER $NB_UID
 COPY --chown=${NB_UID}:${NB_GID} requirements.txt /tmp/
-RUN pip install --quiet --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --quiet --user --no-cache-dir -r /tmp/requirements.txt
 
 # https://jupyterlab-code-snippets-documentation.readthedocs.io/en/latest/index.html
 RUN jupyter labextension install jupyterlab-code-snippets
